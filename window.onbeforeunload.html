@@ -1,0 +1,19 @@
+<html>
+<head>
+    <script>
+        window.onbeforeunload = function () {
+            return 'success'
+        }
+
+        window.onunload = function () {
+            alert('Unload event trigger will hold')
+        }
+        window.addEventListener('onbeforeunload', function () {
+            return true
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
