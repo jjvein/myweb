@@ -1,0 +1,64 @@
+<html>
+    <body>
+
+    </body>
+
+    <script>
+        RemoteCanvas = function() {
+            this.url = "https://baidu.com";
+        };
+
+        RemoteCanvas.CANVAS_WIDTH = 300;
+        RemoteCanvas.CANVAS_HEIGHT = 300;
+
+        RemoteCanvas.prototype.load = function() {
+            var windowWidth = window.innerWidth - 25;
+            var iframe;
+            iframe = document.createElement("iframe");
+            iframe.id = "test-iframe";
+            iframe.height = "10px";
+            iframe.width = windowWidth + "px";
+            iframe.style.visibility = "hidden";
+            iframe.src = this.url;
+// Here is where the magic happens... add a listener to the
+// frame's onload event
+            iframe.addEventListener("load", this.remotePageLoaded, true);
+//append to the end of the page
+            window.document.body.appendChild(iframe);
+            return;
+        };
+
+        RemoteCanvas.prototype.remotePageLoaded = function() {
+// Look back up the iframe by id
+            var ldrFrame = document.getElementById("test-iframe");
+// Get a reference to the window object you need for the canvas
+// drawWindow method
+            var remoteWindow = ldrFrame.contentWindow;
+
+//Draw canvas
+            var canvas = document.createElement("canvas");
+            canvas.style.width = RemoteCanvas.CANVAS_WIDTH + "px";
+            canvas.style.height = RemoteCanvas.CANVAS_HEIGHT + "px";
+            canvas.width = RemoteCanvas.CANVAS_WIDTH;
+            canvas.height = RemoteCanvas.CANVAS_HEIGHT;
+            var windowWidth = window.innerWidth - 25;
+            var windowHeight = window.innerHeight;
+
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0,
+                    RemoteCanvas.CANVAS_WIDTH,
+                    RemoteCanvas.CANVAS_HEIGHT);
+            ctx.save();
+            ctx.scale(RemoteCanvas.CANVAS_WIDTH / windowWidth,
+                    RemoteCanvas.CANVAS_HEIGHT / windowHeight);
+            ctx.drawWindow(remoteWindow,
+                    0, 0,
+                    windowWidth, windowHeight,
+                    "rgb(255,255,255)");
+            ctx.restore();
+        };
+
+        var iframe = new RemoteCanvas()
+        iframe.load()
+    </script>
+</html>

@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <style>
+            #canvas {
+                width: 300px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+    </body>
+
+    <script>
+        var canvas = document.getElementById('canvas')
+        var context = canvas.getContext('2d')
+        context.fillStyle = 'green'
+        context.fillRect(10, 10, 200, 100)
+
+        var pixels = context.getImageData(0, 0, canvas.width, canvas.height)
+        console.log(pixels.data)
+        var all = pixels.data.length
+        var amount = 0
+        for(var i=0; i<all; i+=4) {
+            if(pixels.data[i] == 0 && pixels.data[i+1] == 255 && pixels.data[i+2] == 0) {
+                amount ++
+            }
+        }
+
+        function getPixelColor(canvas, x, y) {
+            if(!typeof canvas.getContext === 'function') return false
+            var ctx = canvas.getContext('2d')
+            //获取一个像素点的 rgba 信息
+            var pixel = ctx.getImageData(x, y, 1, 1)
+            return {
+                r: pixel.data[0],
+                g: pixel.data[1],
+                b: pixel.data[2],
+                a: pixel.data[3]
+            }
+        }
+
+        console.log(getPixelColor(canvas, 20, 20))
+    </script>
+</html>

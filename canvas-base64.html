@@ -1,0 +1,30 @@
+<html>
+    <script>
+        var canvas = document.createElement("canvas");
+        var ctxt = canvas.getContext("2d");
+        function loadImageFile (url, callback) {
+            var image = new Image();
+            image.src = url;
+            image.crossOrigin = 'Anonymous'
+            return new Promise((resolve, reject) => {
+                image.onload = function() {
+                    resolve(image);
+                }
+                image.onerror = reject;
+            }).then(img => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctxt.clearRect(0, 0, img.width, img.height);
+                ctxt.drawImage(img, 0, 0);
+                return canvas.toDataURL()
+            });
+        }
+
+        loadImageFile('http://p0.meituan.net/shaitu/6f98e0dbd03f68e042fa9899edb57d31446315.jpg@156w_156h_1e_1c').then(base64Str=>{
+            document.write(base64Str)
+        })
+    </script>
+    <body>
+
+    </body>
+</html>
