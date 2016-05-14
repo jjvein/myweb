@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <body onload="draw('canvas')">
+       <canvas id="canvas"></canvas>
+    </body>
+
+    <script>
+        function draw(id) {
+            var canvas = document.getElementById('canvas')
+            //no canvas HTML Node or not support getContext('2d')
+            if(!canvas && !canvas.getContext('2d')) return
+
+            var ctx = canvas.getContext('2d')
+
+
+            ctx.fillRect(25, 25, 100, 100)
+            ctx.clearRect(45, 45, 60, 60)
+            ctx.strokeRect(50, 50, 50, 50)
+
+            ctx.beginPath()
+            ctx.moveTo(175, 150)
+            ctx.lineTo(200, 175)
+            ctx.lineTo(200, 125)
+            ctx.fill()
+        }
+
+    </script>
+</html>
