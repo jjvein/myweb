@@ -1,0 +1,27 @@
+<html>
+    <body>
+        XMLHttpRequest Version 2
+    </body>
+    <script>
+        window.URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://p0.meituan.net/deal/dfef46b5d7d171bde355d050c42d9e33359760.jpg@156h_156w_2e', true);
+        xhr.responseType = 'blob';
+
+        xhr.onload = function(e) {
+            if (this.status == 200) {
+                var blob = this.response;
+
+                var img = document.createElement('img');
+                img.onload = function(e) {
+                    window.URL.revokeObjectURL(img.src); // Clean up after yourself.
+                };
+                img.src = window.URL.createObjectURL(blob);
+                document.body.appendChild(img);
+            }
+        };
+
+        xhr.send();
+    </script>
+</html>
