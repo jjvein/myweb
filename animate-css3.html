@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <style>
+            .animate {
+                width: 100px;
+                height: 60px;
+                background-color: rebeccapurple;
+                -webkit-transition: opacity 0.8s linear;
+            }
+        </style>
+    </head>
+    <body>
+        <button class="animate"></button>
+    </body>
+
+    <script>
+        var btn = document.getElementsByClassName('animate')[0]
+        document.body.addEventListener('touchstart', function () {
+            btn.style.opacity = 0
+            btn.style.display = 'none'
+
+        })
+
+        document.body.addEventListener('touchend', function () {
+            btn.style.display = 'block'
+            setTimeout(function () {
+               btn.style.opacity = 1
+            }, 10)
+        })
+    </script>
+</html>
