@@ -15,17 +15,41 @@
 
     <script>
         var btn = document.getElementsByClassName('animate')[0]
-        document.body.addEventListener('touchstart', function () {
+        var touch = {}
+        document.body.addEventListener('touchstart', function (e) {
+            var firstTouch = e.touches[0]
+            touch.x1 = firstTouch.pageX
+            touch.y1 = firstTouch.pageY
+            touch.el = 'tagName' in e.target  ? e.target : document
             btn.style.opacity = 0
             btn.style.display = 'none'
 
         })
 
-        document.body.addEventListener('touchend', function () {
+        document.body.addEventListener('touchmove', function (e) {
+            var firstTouch = e.touches[0]
+            console.log(firstTouch.pageX, firstTouch.pageY)
+            touch.x2 = firstTouch.pageX
+            touch.y2 = firstTouch.pageY
+
             btn.style.display = 'block'
             setTimeout(function () {
                btn.style.opacity = 1
             }, 10)
+        })
+
+        document.body.addEventListener('touchend', function(){
+
+            if((touch.x2 && Math.abs(touch.x1 - touch.x2) > 30)|| (touch.y2 && Math.abs(touch.y1 - touch.y2) > 30) ) {
+                var event = new Event('swipe')
+                touch.el.dispatchEvent(event)
+            }
+
+        })
+
+        document.body.addEventListener('swipe', function() {
+            console.log('Yes, swipe event triggered')
+            touch = {}
         })
     </script>
 </html>
